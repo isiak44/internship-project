@@ -29,3 +29,6 @@ class MarketPage(BasePage):
         for card in product_cards:
             card.find_element(*selected_tag)
 
+
+
+

@@ -9,6 +9,10 @@ class BasePage:
     def open_url(self, url):
         self.driver.get(url)
 
+    def input_text(self, text, *locator):
+        element = self.wait_until_visible(*locator)
+        element.send_keys(text)
+
     def click(self, *locator):
         self.driver.find_element(*locator).click()
 
@@ -52,6 +56,13 @@ class BasePage:
             EC.element_to_be_clickable(locator),
             message= f'Element by {locator} not clickable'
         )
+
+    def wait_and_click(self, *locator):
+        self.wait.until(
+            EC.element_to_be_clickable(locator),
+            message= f'Element by {locator} not clickable'
+        ).click()
+
 
     def wait_for_all_element_visible(self, *locator):
         return self.wait.until(
