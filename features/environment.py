@@ -4,10 +4,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.remote.remote_connection import ClientConfig
 from app.application import Application
 
 
-def browser_init(context):
+def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
@@ -15,9 +16,9 @@ def browser_init(context):
     # service = Service(driver_path)
     # context.driver = webdriver.Chrome(service=service)
 
-    driver_path = GeckoDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Firefox(service=service)
+    # driver_path = GeckoDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Firefox(service=service)
 
 
     # # HEADLESS MODE ####
@@ -29,6 +30,27 @@ def browser_init(context):
     #     service=service
     # )
 
+    ## BROWSERSTACK ###
+    #Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
+    client_config = ClientConfig(remote_server_addr="hub-cloud.browserstack.com")
+    client_config.username = "bisibav_El5nHG"
+    client_config.password = "pNUBJTyZRvs9kfqnpcHc"
+    # bs_user = 'bisibav_El5nHG'
+    # bs_key = 'pNUBJTyZRvs9kfqnpcHc'
+    remote_url = "https://hub-cloud.browserstack.com/wd/hub"
+    #url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+
+    options = Options()
+    bstack_options = {
+        "os" : "OS X",
+        "osVersion" : "Sequoia",
+        'browserName': 'Firefox',
+        'browserVersion': 'latest',
+        'sessionName': scenario_name,
+    }
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=remote_url, options=options, client_config=client_config)
+
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
     context.app = Application(context.driver)
@@ -37,7 +59,7 @@ def browser_init(context):
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
-    browser_init(context)
+    browser_init(context, scenario.name)
 
 
 def before_step(context, step):
