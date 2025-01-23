@@ -7,6 +7,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.remote_connection import ClientConfig
 from app.application import Application
 
+# Command to run tests with Allure & Behave:
+# behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/tests/target_search.feature
+
+#Command to generate allure test report
+#allure serve test_results/
+
 
 def browser_init(context, scenario_name):
     """
@@ -16,9 +22,9 @@ def browser_init(context, scenario_name):
     # service = Service(driver_path)
     # context.driver = webdriver.Chrome(service=service)
 
-    # driver_path = GeckoDriverManager().install()
-    # service = Service(driver_path)
-    # context.driver = webdriver.Firefox(service=service)
+    driver_path = GeckoDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Firefox(service=service)
 
 
     # # HEADLESS MODE ####
@@ -32,24 +38,24 @@ def browser_init(context, scenario_name):
 
     ## BROWSERSTACK ###
     #Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
-    client_config = ClientConfig(remote_server_addr="hub-cloud.browserstack.com")
-    client_config.username = "bisibav_El5nHG"
-    client_config.password = "pNUBJTyZRvs9kfqnpcHc"
+    # client_config = ClientConfig(remote_server_addr="hub-cloud.browserstack.com")
+    # client_config.username = "bisibav_El5nHG"
+    # client_config.password = "pNUBJTyZRvs9kfqnpcHc"
     # bs_user = 'bisibav_El5nHG'
     # bs_key = 'pNUBJTyZRvs9kfqnpcHc'
-    remote_url = "https://hub-cloud.browserstack.com/wd/hub"
+    #remote_url = "https://hub-cloud.browserstack.com/wd/hub"
     #url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
 
-    options = Options()
-    bstack_options = {
-        "os" : "OS X",
-        "osVersion" : "Sequoia",
-        'browserName': 'Firefox',
-        'browserVersion': 'latest',
-        'sessionName': scenario_name,
-    }
-    options.set_capability('bstack:options', bstack_options)
-    context.driver = webdriver.Remote(command_executor=remote_url, options=options, client_config=client_config)
+    # options = Options()
+    # bstack_options = {
+    #     "os" : "OS X",
+    #     "osVersion" : "Sequoia",
+    #     'browserName': 'Firefox',
+    #     'browserVersion': 'latest',
+    #     'sessionName': scenario_name,
+    # }
+    # options.set_capability('bstack:options', bstack_options)
+    # context.driver = webdriver.Remote(command_executor=remote_url, options=options, client_config=client_config)
 
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)

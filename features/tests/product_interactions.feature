@@ -1,6 +1,6 @@
 Feature: Test Scenarios for product interaction
 
-
+  @smoke
   Scenario: User can open market tab and filter by developers option
     Given Open the main page
     When Login to the page
