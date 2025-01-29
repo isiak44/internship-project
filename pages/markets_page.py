@@ -9,6 +9,7 @@ class MarketPage(BasePage):
     FILTER_BTN = (By.CSS_SELECTOR, "div [wized*='{SUBSTRING}']")
     MARKET_CARDS = (By.CSS_SELECTOR, "div.tags-block-3")
     LICENCE_TAG = (By.XPATH, "//*[text()='{SUBSTRING}' and @wized='marketCompanyTagText']")
+    
 
     def get_card_tag_locator(self, text):
         return self.LICENCE_TAG[0], self.LICENCE_TAG[1].replace('{SUBSTRING}', text)

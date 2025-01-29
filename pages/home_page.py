@@ -17,8 +17,8 @@ class HomePage(BasePage):
         sleep(3)
 
     def login_credentials(self):
-        self.input_text('EMAIL', *self.EMAIL_FIELD)
-        self.input_text('PASSWORD', *self.PASSWORD_FIELD)
+        self.input_text('q57mrrjsl@mozmail.com', *self.EMAIL_FIELD)
+        self.input_text('Florida2016', *self.PASSWORD_FIELD)
         self.click(*self.LOGIN_BTN)
 
 
